@@ -37,5 +37,28 @@
                 return "";
             }
         }
+        public static function instantiate($record){
+            //automatically instantiate this propertise
+            // create an object
+            $object = new self;
+            $object->id = $record['id'];
+            $object->username = $record['username'];
+            $object->password = $record['password'];
+            $object->first_name = $record['first_name'];
+            $object->last_name = $record['last_name'];
+            return $object;
+            
+            
+        }
+        
+        public function has_attribute($attribute){
+            // find if the attribute exists in the object
+            //object_vars-> find the attributes from the class
+            //return array and 
+            // with array_ke_exists we find if attributes exists
+            $object_vars = get_object_vars($this);
+            return array_key_exists($attribute, $object_vars);
+            
+        }
     }
 ?>
