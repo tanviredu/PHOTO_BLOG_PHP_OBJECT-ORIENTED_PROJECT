@@ -65,6 +65,23 @@
             }
         }
 
+        private function  instantiate($record){
+           $object = new self;
+            /**
+             * BASIC WAY OF INSTANTIATE THE OBJECT
+            $object->id = $record['id'];
+            $object->username = $record['username'];
+            $object->password = $record['password'];
+            $object->first_name = $record['first_name'];
+            $object->last_name = $record['last_name'];
+            return $object;
+
+            **/
+
+
+
+        }
+
     }
 
 $user = new User();
