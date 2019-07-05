@@ -70,7 +70,7 @@
 
     }
 
-$databse = new MySqlDatabse();
+$database = new MySqlDatabse();
 //$databse->close_connection();
 
 ?>
