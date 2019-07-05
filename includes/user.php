@@ -42,15 +42,22 @@
             //$result_set = $database->query("SELECT * FROM users");
             //return $result_set;
             return self::find_by_sql("SELECT * FROM users");
+            // now it automatically return object array
         }
 
         public static function find_by_id($id=0){
             global $database;
             //$result_set = $database->query("SELECT * FROM users WHERE id='$id'");
 
-              $result_set = self::find_by_sql("SELECT * FROM users WHERE id='$id' LIMIT 1");
-            $found = $database->fetch_array($result_set);
-            return $found;
+              $result_array = self::find_by_sql("SELECT * FROM users WHERE id='$id' LIMIT 1");
+            /**$found = $database->fetch_array($result_set);
+                *return $found;
+             * WE CANT USE IT NOW CAUSE ITS RETURING OBJECT ARRAY NOW
+             * */
+             return !empty($result_array) ? array_shift($result_array) : false;
+
+            // it means if it is not empty fetch the first element and if empty send false
+
         }
 
         public static function find_by_sql($sql=""){
@@ -69,8 +76,13 @@
 
             global $database;
             $result_set = $database->query($sql);
+            $object_array = array();
+            while($row = $database->fetch_array($result_set)){
+                $object_array[] = self::instantiate($row);
+            }
 
-            return $result_set;
+            //return $result_set;
+            return $object_array;
         }
 
         public function full_name(){
@@ -88,7 +100,7 @@
             return array_key_exists($attribute,$object_vars);
         }
 
-        private function  instantiate($record){
+        private static function  instantiate($record){
            $object = new self;
             /**
              * BASIC WAY OF INSTANTIATE THE OBJECT
