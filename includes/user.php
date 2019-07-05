@@ -23,6 +23,8 @@
  *
  * now we make a instantiate method so we pass the data with sql and the User class
  * make a user object by instantiating all the method;
+ *
+ * we instantiating using a loop and before we check the attributes
 
  */
 
@@ -52,8 +54,22 @@
         }
 
         public static function find_by_sql($sql=""){
+
+            /**
+             * we fetch data from the sql with query
+             * then we declare an empty object array
+             * then we iterate through the result_set and every row
+             * is a record of the user object means every row of this result_set
+             * has all the attribute info so we instantiate the object with every row
+             * and then store this ionstantiated object in object array
+             * */
+
+
+
+
             global $database;
             $result_set = $database->query($sql);
+
             return $result_set;
         }
 
@@ -63,6 +79,13 @@
             }else{
                 return "";
             }
+        }
+
+
+        private function has_attribute($attribute){
+            // first find all the attribute and store it
+            $object_vars = get_object_vars($this); //this instant
+            return array_key_exists($attribute,$object_vars);
         }
 
         private function  instantiate($record){
@@ -76,10 +99,21 @@
             $object->last_name = $record['last_name'];
             return $object;
 
-            **/
+
+            // this is more dynamic approach
+            //check weather the object has a attribute
+            // and if it is then add the value of that
+            // attribute
+            // iterte through a dictionary
+             **/
+            foreach($record as $attribute=> $value){
+                if($object->has_attribute($attribute)){
+                    $object->$attribute=$value;
+                }
+            }
 
 
-
+            return $object;
         }
 
     }
