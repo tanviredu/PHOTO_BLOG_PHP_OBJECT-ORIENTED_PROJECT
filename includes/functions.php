@@ -3,7 +3,7 @@
 //redirect
 function redirect_to($location=""){
         if ($location!= NULL){
-            header("Location: '$location'");
+            header("Location: {$location}");
         }
     }
 
@@ -24,6 +24,24 @@ function redirect_to($location=""){
  */
 
 
+function output_message($message="") {
+    if (!empty($message)) {
+        return "<p class=\"message\">{$message}</p>";
+    } else {
+        return "";
+    }
+}
+
+
+
+function strip_zeros_from_date( $marked_string="" ) {
+    // first remove the marked zeros
+    $no_zeros = str_replace('*0', '', $marked_string);
+    // then remove any remaining marks
+    $cleaned_string = str_replace('*', '', $no_zeros);
+    return $cleaned_string;
+}
+
 
 function __autoload($class_name){
     $class_name = strtolower($class_name); // make the class name lowerclass
@@ -35,6 +53,9 @@ function __autoload($class_name){
         die("The file '$class_name'.php not found");
     }
 
+}
+function include_layout_template($template="") {
+    include("/opt/lampp/htdocs/PHOTO_BLOG_PHP_OBJECT-ORIENTED_PROJECT/public/layouts/{$template}");
 }
 
 

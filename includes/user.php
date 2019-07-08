@@ -45,11 +45,11 @@
             // now it automatically return object array
         }
 
-        public static function find_by_id($id=0){
+        public static function find_by_id($id){
             global $database;
             //$result_set = $database->query("SELECT * FROM users WHERE id='$id'");
 
-              $result_array = self::find_by_sql("SELECT * FROM users WHERE id='$id' LIMIT 1");
+              $result_array = self::find_by_sql("SELECT * FROM users WHERE id={$id} LIMIT 1");
             /**$found = $database->fetch_array($result_set);
                 *return $found;
              * WE CANT USE IT NOW CAUSE ITS RETURING OBJECT ARRAY NOW
@@ -127,6 +127,20 @@
 
             return $object;
         }
+
+
+        public static function authenticate($username='',$password=''){
+
+            $result_array=self::find_by_sql("SELECT * FROM users WHERE username='$username' AND password='$password' LIMIT 1");
+            /**$found = $database->fetch_array($result_set);
+             *return $found;
+             * WE CANT USE IT NOW CAUSE ITS RETURING OBJECT ARRAY NOW
+             * */
+            return !empty($result_array) ? array_shift($result_array) : false;
+
+
+        }
+
 
     }
 
